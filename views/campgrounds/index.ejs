@@ -1,25 +1,27 @@
 <% layout('layouts/boilerplate') %>
-<h1>All Campgrounds</h1>
-<div>
-  <a href="/campgrounds/new">Add New Campground</a>
-</div>
+<h1 class="text-center mb-4">All Campgrounds</h1>
 <div class="container">
-    <% for (let camp of campgrounds) { %>
-    <div class="card mb-3" style="max-width: 912px;">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img src=<%= camp.image || "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg" %> 
-          class="img-fluid rounded-start" alt=<%= camp.title %> >
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <h5 class="card-title"><%= camp.title %></h5>
-            <p class="card-text"><%= camp.description %></p>
-            <p class="card-text"><small class="text-muted"><%= camp.location %></small></p>
-            <a href="/campgrounds/<%= camp._id %>" class="btn btn-primary px-4">View Camp</a>
-          </div>
+  <% for (let camp of campgrounds) { %>
+  <div class="card mb-3 mx-auto" style="max-width: 912px">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <img src=<%= camp.image ||
+        "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
+        %> class="img-fluid rounded-start" alt=<%= camp.title %> >
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title"><%= camp.title %></h5>
+          <p class="card-text"><%= camp.description %></p>
+          <p class="card-text">
+            <small class="text-muted"><%= camp.location %></small>
+          </p>
+          <a href="/campgrounds/<%= camp._id %>" class="btn btn-primary px-4"
+            >View Camp</a
+          >
         </div>
       </div>
     </div>
-    <% } %>
+  </div>
+  <% } %>
 </div>
