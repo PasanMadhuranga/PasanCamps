@@ -45,6 +45,7 @@ const seedDB = async () => {
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos dolor sit amet consectetur adipisicing elit.",
       location: `${cities[randLoc].city}, ${cities[randLoc].state}`,
       image: await getImageURL(),
+      author: "661c93abfa05c435380bd8bd",
     });
   }
 };
