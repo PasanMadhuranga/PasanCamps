@@ -44,7 +44,16 @@ const seedDB = async () => {
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos dolor sit amet consectetur adipisicing elit.",
       location: `${cities[randLoc].city}, ${cities[randLoc].state}`,
-      image: await getImageURL(),
+      images: [
+        {
+          url: 'https://res.cloudinary.com/dujhq8egd/image/upload/v1716796340/PasanCamps/gmuma6z9rmqzh6wlojyr.jpg',
+          filename: 'PasanCamps/gmuma6z9rmqzh6wlojyr',
+        },
+        {
+          url: 'https://res.cloudinary.com/dujhq8egd/image/upload/v1716796340/PasanCamps/kb3ieqf3pg5yywzf55ft.webp',
+          filename: 'PasanCamps/kb3ieqf3pg5yywzf55ft',
+        }
+      ],
       author: "661c93abfa05c435380bd8bd",
     });
   }

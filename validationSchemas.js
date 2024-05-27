@@ -6,12 +6,13 @@ campgroundSchema = Joi.object({
 
     location: Joi.string().pattern(new RegExp("^(.)+, (.)+$")).required(),
 
-    image: Joi.string().uri(),
+    // image: Joi.string().uri(),
 
     price: Joi.number().min(0).required(),
 
     description: Joi.string().required(),
   }).required(),
+  deleteImages: Joi.array(),
 });
 
 reviewSchema = Joi.object({
