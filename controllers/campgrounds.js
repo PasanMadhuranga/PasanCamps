@@ -1,6 +1,15 @@
 // require the Campground model
 const Campground = require("../models/campground");
 
+// require the mapbox geocoding service to convert location to coordinates
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+
+// require the mapbox token
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+
+// create a new geocoding client
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
+
 // require cloudinary 
 const { cloudinary } = require("../cloudinary");
 
@@ -14,13 +23,25 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createCampground = async (req, res, next) => {
+  const geoData = await geocoder.forwardGeocode({
+    query: req.body.campground.location,
+    limit: 1,
+  })
+    .send()
+  
   const campground = new Campground(req.body.campground);
+
+  // The geometry field of the campground is set to the first result from the geocoding response.
+  campground.geometry = geoData.body.features[0].geometry;
+
+  // Sets the author field of the campground to the ID of the currently logged-in user.
   campground.author = req.user._id;
   // Maps over each file in req.files and returns a new array of objects, each containing url and filename properties. 
   // This transforms the uploaded files into the format expected by the Campground model.
   campground.images = req.files.map(f => ({ url: f.path, filename: f.filename }))
 
   await campground.save();
+
   // Sets a success flash message to inform the user that the campground was created successfully.
   req.flash("success", "Successfully made a new campground!");
 

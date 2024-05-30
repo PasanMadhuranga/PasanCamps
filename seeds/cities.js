@@ -33,7 +33,7 @@ module.exports = [
         longitude: -95.3698028,
         population: "2195914",
         rank: "4",
-        state: "Texas",
+        state: "Houston",
     },
     {
         city: "Philadelphia",

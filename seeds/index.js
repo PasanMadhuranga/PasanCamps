@@ -48,16 +48,21 @@ const seedDB = async () => {
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos dolor sit amet consectetur adipisicing elit.",
       location: `${cities[randLoc].city}, ${cities[randLoc].state}`,
+      geometry: {
+        type: "Point",
+        coordinates: [-113.1331, 47.0202],
+      },
       images: [
         {
-          url: 'https://res.cloudinary.com/dujhq8egd/image/upload/v1716796340/PasanCamps/gmuma6z9rmqzh6wlojyr.jpg',
-          filename: 'PasanCamps/gmuma6z9rmqzh6wlojyr',
+          url: 'https://res.cloudinary.com/dujhq8egd/image/upload/v1717057310/PasanCamps/dtjqweg7tls0wyjd48ba.jpg',
+          filename: 'PasanCamps/dtjqweg7tls0wyjd48ba',
         },
         {
-          url: 'https://res.cloudinary.com/dujhq8egd/image/upload/v1716796340/PasanCamps/kb3ieqf3pg5yywzf55ft.webp',
-          filename: 'PasanCamps/kb3ieqf3pg5yywzf55ft',
+          url: 'https://res.cloudinary.com/dujhq8egd/image/upload/v1717057310/PasanCamps/rpz9mrenzwyzif0tfniw.jpg',
+          filename: 'PasanCamps/rpz9mrenzwyzif0tfniw',
         }
       ],
+      // The author field is set to the ID of the user with the username "bob".
       author: "661c93abfa05c435380bd8bd",
     });
   }
