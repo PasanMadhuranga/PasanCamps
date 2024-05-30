@@ -1,5 +1,7 @@
 const express = require("express");
-const router = express.Router({ mergeParams: true }); // mergeParams: true is required to access the params from the parent router
+
+// mergeParams: true is required to access the params from the parent router
+const router = express.Router({ mergeParams: true }); 
 const reviews = require("../controllers/reviews");
 const catchAsync = require("../utils/catchAsync");
 const { validateReview, isLoggedIn, isReviewAuthor } = require("../middleware");

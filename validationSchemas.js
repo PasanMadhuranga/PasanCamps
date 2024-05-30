@@ -1,3 +1,8 @@
+// The Joi library is a powerful and flexible validation library for JavaScript, 
+// often used with Node.js to validate data structures such as request payloads, query parameters, 
+// and configuration objects.. Joi provides server-side validation. 
+// It is commonly used in server-side applications, especially in Node.js, to validate data before processing it.
+
 const Joi = require("joi");
 
 campgroundSchema = Joi.object({

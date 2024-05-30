@@ -16,26 +16,30 @@ mongoose
 
 const getSample = (array) => array[Math.floor(Math.random() * array.length)];
 
-const getImageURL = async () => {
-  try {
-    const config = {
-      params: {
-        client_id: "gdnO96bpcvOdIYScVESUOLZpznjI4rLFkDZ6fQQixDw",
-        collections: "483251",
-      },
-    };
-    const res = await axios.get(
-      "https://api.unsplash.com/photos/random",
-      config
-    );
-    return res.data.urls.regular;
-  } catch (e) {
-    console.log(e);
-  }
-};
+// const getImageURL = async () => {
+//   try {
+//     const config = {
+//       params: {
+//         client_id: "gdnO96bpcvOdIYScVESUOLZpznjI4rLFkDZ6fQQixDw",
+//         collections: "483251",
+//       },
+//     };
+//     const res = await axios.get(
+//       "https://api.unsplash.com/photos/random",
+//       config
+//     );
+//     return res.data.urls.regular;
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
 
+
+// An asynchronous function that seeds the database with sample campgrounds.
 const seedDB = async () => {
+  // deletes all existing campgrounds in the collection.
   await Campground.deleteMany({});
+  // A loop runs 50 times to create 50 sample campgrounds.
   for (let i = 0; i < 50; i++) {
     const randLoc = Math.floor(Math.random() * cities.length);
     await Campground.create({
@@ -59,6 +63,12 @@ const seedDB = async () => {
   }
 };
 
-seedDB().then(() => {
+// The seeding function is executed, and the MongoDB connection is closed upon completion.
+seedDB()
+  .then(() => {
   mongoose.connection.close();
-});
+  })
+  .catch((err) => {
+    console.error("Error during seeding:", err);
+    mongoose.connection.close();
+  });

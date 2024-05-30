@@ -1,3 +1,5 @@
+// This review controller file defines two main functions: createReview and deleteReview. 
+// These functions handle the creation and deletion of reviews for campgrounds
 const Review = require("../models/review");
 const Campground = require("../models/campground");
 
@@ -13,6 +15,7 @@ module.exports.createReview = async (req, res) => {
   req.flash("success", "Created new review!");
   res.redirect(`/campgrounds/${camp._id}`);
 };
+
 
 module.exports.deleteReview = async (req, res) => {
   const { id, reviewId } = req.params;

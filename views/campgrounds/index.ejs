@@ -5,8 +5,7 @@
   <div class="card mb-3 mx-auto" style="max-width: 912px">
     <div class="row g-0">
       <div class="col-md-4">
-        <img src=<%= camp.images[0].url ||
-        "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
+        <img src=<%= camp.images.length > 0 ? camp.images[0].url : "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
         %> class="img-fluid rounded-start" alt=<%= camp.title %> >
       </div>
       <div class="col-md-8">
