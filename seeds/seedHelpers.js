@@ -16,7 +16,19 @@ module.exports.descriptors = [
     'Sea',
     'Sky',
     'Dusty',
-    'Diamond'
+    'Diamond',
+    'Golden',
+    'Whispering',
+    'Enchanted',
+    'Majestic',
+    'Mossy',
+    'Wild',
+    'Serenity',
+    'Mystical',
+    'Emerald',
+    'Hidden',
+    'Glistening',
+    'Sunset'
 ]
 
 module.exports.places = [
@@ -40,5 +52,15 @@ module.exports.places = [
     'Mule Camp',
     'Hunting Camp',
     'Cliffs',
-    'Hollow'
+    'Hollow',
+    'Ridge',
+    'Meadow',
+    'Valley',
+    'Summit',
+    'Lake',
+    'Trail',
+    'Peak',
+    'Island',
+    'Beach',
+    'Grove'
 ]

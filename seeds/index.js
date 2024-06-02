@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Campground = require("../models/campground");
 const cities = require("./cities");
 const { places, descriptors } = require("./seedHelpers");
-const axios = require("axios");
+// const axios = require("axios");
 
 mongoose
   .connect("mongodb://127.0.0.1:27017/pasan-camps")
@@ -40,7 +40,7 @@ const seedDB = async () => {
   // deletes all existing campgrounds in the collection.
   await Campground.deleteMany({});
   // A loop runs 50 times to create 50 sample campgrounds.
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 200; i++) {
     const randLoc = Math.floor(Math.random() * cities.length);
     await Campground.create({
       title: `${getSample(descriptors)} ${getSample(places)}`,
@@ -50,7 +50,7 @@ const seedDB = async () => {
       location: `${cities[randLoc].city}, ${cities[randLoc].state}`,
       geometry: {
         type: "Point",
-        coordinates: [-113.1331, 47.0202],
+        coordinates: [cities[randLoc].longitude, cities[randLoc].latitude],
       },
       images: [
         {

@@ -16,6 +16,8 @@ ImageSchema.virtual("thumbnail").get(function () {
   return this.url.replace("/upload", "/upload/w_200");
 });
 
+const opts = { toJSON: { virtuals: true } };
+
 const CampgroundSchema = new Schema({
   title: String,
   images: [ImageSchema],
@@ -44,6 +46,12 @@ const CampgroundSchema = new Schema({
       ref: "Review"
     }
   ]
+}, opts);
+
+CampgroundSchema.virtual("properties.popUpMarkup").get(function () {
+  return `
+    <strong><a href="/campgrounds/${this._id}">${this.title}</a></strong>
+    <p class="mb-0">${this.description.substring(0, 20)}...</p>`;
 });
 
 // This piece of code defines a Mongoose middleware (also known as a hook) that runs after the findOneAndDelete operation is executed on the Campground model.
