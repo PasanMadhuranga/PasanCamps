@@ -7,6 +7,9 @@ const express = require("express");
 const app = express();
 const path = require("path");
 
+// helmet is a collection of 14 smaller middleware functions that set HTTP headers to secure the application.
+const helmet = require("helmet");
+
 // ejs-mate is a package for Express.js that extends the EJS (Embedded JavaScript) templating engine. 
 const ejsMate = require("ejs-mate");
 
@@ -34,6 +37,9 @@ const flash = require("connect-flash");
 // Passport is an authentication middleware for Node.js that provides a set of plugins to handle authentication in your application.
 const passport = require("passport");  
 
+// express-mongo-sanitize is a middleware for Express.js that sanitizes user input to prevent NoSQL injection attacks.
+const mongoSanitize = require("express-mongo-sanitize");
+
 // passport-local is a strategy for Passport.js that authenticates users using a username and password. 
 // It is called "local" because it uses the local database for authentication.
 const LocalStrategy = require("passport-local");
@@ -45,6 +51,7 @@ const User = require("./models/user");
 const campgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
+const { name } = require("ejs");
 
 // mongoose.connect: This method is used to establish a connection to the MongoDB database.
 // Connection String: "mongodb://127.0.0.1:27017/pasan-camps"
@@ -82,8 +89,64 @@ app.use(express.urlencoded({ extended: true }));
 // allows the use of HTTP methods like PUT and DELETE in forms.
 app.use(methodOverride("_method"));
 
+// set the mongoSanitize middleware to sanitize user input to prevent NoSQL injection attacks.
+app.use(mongoSanitize());
+
+// The helmet middleware is used to set various HTTP headers to secure the application.
+app.use(helmet());
+
+const scriptSrcUrls = [
+  "https://stackpath.bootstrapcdn.com",
+  "https://api.tiles.mapbox.com",
+  "https://api.mapbox.com",
+  "https://kit.fontawesome.com",
+  "https://cdnjs.cloudflare.com",
+  "https://cdn.jsdelivr.net",
+  "https://conoret.com",
+];
+const styleSrcUrls = [
+  "https://kit-free.fontawesome.com",
+  "https://stackpath.bootstrapcdn.com",
+  "https://api.mapbox.com",
+  "https://api.tiles.mapbox.com",
+  "https://fonts.googleapis.com",
+  "https://use.fontawesome.com",
+  "https://cdn.jsdelivr.net",
+];
+const connectSrcUrls = [
+  "https://api.mapbox.com",
+  "https://*.tiles.mapbox.com",
+  "https://events.mapbox.com",
+];
+const fontSrcUrls = [];
+app.use(
+  helmet.contentSecurityPolicy({
+      directives: {
+          defaultSrc: [],
+          connectSrc: ["'self'", ...connectSrcUrls],
+          scriptSrc: ["'unsafe-inline'", "'self'", ...scriptSrcUrls],
+          styleSrc: ["'self'", "'unsafe-inline'", ...styleSrcUrls],
+          workerSrc: ["'self'", "blob:"],
+          childSrc: ["blob:"],
+          objectSrc: [],
+          imgSrc: [
+              "'self'",
+              "blob:",
+              "data:",
+              "https://res.cloudinary.com/dujhq8egd/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT! 
+              "https://images.unsplash.com",
+              "https://cdn.dribbble.com",
+          ],
+          fontSrc: ["'self'", ...fontSrcUrls],
+      },
+  })
+);
+
 // Sets up and configures the session middleware with security settings and expiration details.
 const sessionConfig = {
+  // The name of the session ID cookie. This is the name that will be used to store the session ID in the browser. 
+  // we change this to prevent attackers from identifying the application.
+  name: "session",
   // A string used to sign the session ID cookie. It should be a complex, random string to enhance security.
   secret: "thisshouldbeabettersecret",
   // When set to false, it prevents the session from being saved back to the session store if it wasn't modified during the request.
@@ -93,6 +156,8 @@ const sessionConfig = {
   cookie: {
     // The cookie is not accessible via client-side JavaScript, enhancing security.
     httpOnly: true,
+    // The cookie will only be sent over HTTPS connections, providing additional security.
+    // secure: true,
     // Sets a specific expiration date and time for the cookie, providing absolute control over its lifetime.
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     // Defines the maximum age for the cookie in milliseconds, offering a relative expiration time from the moment it is set.
@@ -143,14 +208,14 @@ app.use("/campgrounds", campgroundRoutes);
 app.use("/campgrounds/:id/reviews", reviewRoutes);
 
 app.get("/", (req, res) => {
-  res.send("HOME");
+  res.render("home");
 });
 
 // This line defines a catch-all route handler for all HTTP methods (app.all) and any paths (*).
 // If no other route matches the request, this handler creates a new ExpressError with the message "Page Not Found" and a status code of 404, 
 // then passes it to the next middleware using next.
 app.all("*", (req, res, next) => {
-  next(new ExpressError("Page Not Found", 404));
+  res.status(404).render("page404")
 });
 
 // This middleware Provides a centralized place to handle all errors that occur in the application.
