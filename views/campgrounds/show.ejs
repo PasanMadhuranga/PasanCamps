@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/css/stars.css">
-<div class="row mb-5 mt-3">
-    <div class="col-6">
+<div class="row mb-5 mt-3 mx-auto">
+    <div class="col-md-6">
         <div class="card mb-5 shadow mx-auto" style="max-width: 25rem;">
             <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
@@ -52,10 +52,11 @@
                 </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="col-md-5">
+        <div>
         <div id='map' class="mb-2"></div>
         <% if (currentUser) { %>
-            <h2>Leave a review</h2>
+            <h2 class="text-white">Leave a review</h2>
             <form class="needs-validation mb-3" action="/campgrounds/<%= campground._id %>/reviews" method="POST" novalidate>
                 <div class="mb-0">
                     <fieldset class="starability-basic">
@@ -74,7 +75,7 @@
                     </fieldset>
                 </div>
                 <div class="mb-3">
-                    <label class="form-label" for="body">Review Text: </label>
+                    <label class="form-label text-white" for="body">Review Text: </label>
                     <textarea class="form-control" name="review[body]" id="body" cols="30" rows="5" required></textarea>
                 </div>
                 <button class="btn btn-success">Submit</button>
@@ -93,6 +94,7 @@
                 </div>
             </div>
             <% } %>
+        </div>
     </div>
 </div>
 

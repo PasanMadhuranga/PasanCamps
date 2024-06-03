@@ -30,6 +30,9 @@ const methodOverride = require("method-override");
 // The actual session data is stored on the server-side, and the session identifier in the cookie is used to retrieve this data.
 const session = require("express-session");
 
+// connect-mongo is a MongoDB session store for Express.js. It allows you to store session data in a MongoDB database.
+const MongoStore = require("connect-mongo");
+
 // The connect-flash middleware is used in Express.js applications to manage flash messages. Flash messages are temporary messages used to convey information to the user, such as notifications, warnings, success messages, or errors. 
 // These messages are stored in the session and are designed to be displayed to the user only once, typically after a redirect.
 const flash = require("connect-flash");
@@ -53,6 +56,8 @@ const reviewRoutes = require("./routes/reviews");
 const userRoutes = require("./routes/users");
 const { name } = require("ejs");
 
+const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/pasan-camps"
+
 // mongoose.connect: This method is used to establish a connection to the MongoDB database.
 // Connection String: "mongodb://127.0.0.1:27017/pasan-camps"
   // mongodb://: The protocol used to connect to MongoDB.
@@ -60,7 +65,7 @@ const { name } = require("ejs");
   // 27017: The default port number on which MongoDB listens for connections.
   // pasan-camps: The name of the database you want to connect to. If the database does not exist, MongoDB will create it for you when you insert the first document.
 mongoose
-  .connect("mongodb://127.0.0.1:27017/pasan-camps")
+  .connect(dbUrl)
   .then(() => {
     console.log("MONGO CONNECTION OPEN!!!");
   })
@@ -142,13 +147,23 @@ app.use(
   })
 );
 
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: process.env.SECRET
+  }
+});
+
 // Sets up and configures the session middleware with security settings and expiration details.
 const sessionConfig = {
+  // The store option allows you to specify a session store to use for session data persistence.
+  store,
   // The name of the session ID cookie. This is the name that will be used to store the session ID in the browser. 
   // we change this to prevent attackers from identifying the application.
   name: "session",
   // A string used to sign the session ID cookie. It should be a complex, random string to enhance security.
-  secret: "thisshouldbeabettersecret",
+  secret: process.env.SECRET,
   // When set to false, it prevents the session from being saved back to the session store if it wasn't modified during the request.
   resave: false,
   // This setting will save new, unmodified sessions to the session store. As soon as a user visits your site and a session is created, it will be stored.
