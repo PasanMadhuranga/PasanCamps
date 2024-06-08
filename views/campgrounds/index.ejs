@@ -1,9 +1,9 @@
 <% layout('layouts/boilerplate') %>
-<div id="cluster-map"></div>
-<h1 class="text-center mb-4">All Campgrounds</h1>
+<div id="cluster-map" class="w-100"></div>
+<h1 class="text-center mb-4 text-white mt-2">All Campgrounds</h1>
 <div class="container">
   <% for (let camp of campgrounds) { %>
-  <div class="card mb-3 mx-auto" style="max-width: 912px">
+  <div class="campground-cards card mb-3 mx-auto">
     <div class="row g-0">
       <div class="col-md-4">
         <img crossorigin="anonymous" src=<%= camp.images.length > 0 ? camp.images[0].url : "https://t4.ftcdn.net/jpg/04/73/25/49/360_F_473254957_bxG9yf4ly7OBO5I0O5KABlN930GwaMQz.jpg"
@@ -12,7 +12,13 @@
       <div class="col-md-8">
         <div class="card-body">
           <h5 class="card-title"><%= camp.title %></h5>
-          <p class="card-text"><%= camp.description %></p>
+          <p class="card-text">
+            <% if (camp.description.length > 110) { %>
+            <%= camp.description.substring(0, 110) %>...
+            <% } else { %>
+            <%= camp.description %>
+            <% } %>
+          </p>
           <p class="card-text">
             <small class="text-muted"><%= camp.location %></small>
           </p>
