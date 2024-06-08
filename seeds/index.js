@@ -2,10 +2,15 @@ const mongoose = require("mongoose");
 const Campground = require("../models/campground");
 const cities = require("./cities");
 const { places, descriptors } = require("./seedHelpers");
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/pasan-camps";
 // const axios = require("axios");
 
 mongoose
-  .connect("mongodb://127.0.0.1:27017/pasan-camps")
+  .connect(dbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 30000,
+  })
   .then(() => {
     console.log("MONGO CONNECTION OPEN!!!");
   })
@@ -34,13 +39,35 @@ const getSample = (array) => array[Math.floor(Math.random() * array.length)];
 //   }
 // };
 
+const sampleImgs = [
+  {
+    url: "https://res.cloudinary.com/dujhq8egd/image/upload/v1717397393/PasanCamps/ixgdwn7lig5bczf4dnql.jpg",
+    filename: "PasanCamps/ixgdwn7lig5bczf4dnql",
+  },
+  {
+    url: "https://res.cloudinary.com/dujhq8egd/image/upload/v1717397622/PasanCamps/flgmtoi5uqzihlxrdkpr.jpg",
+    filename: "PasanCamps/flgmtoi5uqzihlxrdkpr",
+  },
+  {
+    url: "https://res.cloudinary.com/dujhq8egd/image/upload/v1717397624/PasanCamps/uqwdvxhjcozvqgdn2ud2.jpg",
+    filename: "PasanCamps/uqwdvxhjcozvqgdn2ud2",
+  },
+  {
+    url: "https://res.cloudinary.com/dujhq8egd/image/upload/v1717397624/PasanCamps/kveuhchgj9mu8lsahatz.jpg",
+    filename: "PasanCamps/kveuhchgj9mu8lsahatz",
+  },
+  {
+    url: "https://res.cloudinary.com/dujhq8egd/image/upload/v1717397769/PasanCamps/cwfh9umrudrb1j5et8ms.jpg",
+    filename: "PasanCamps/cwfh9umrudrb1j5et8ms",
+  },
+];
 
 // An asynchronous function that seeds the database with sample campgrounds.
 const seedDB = async () => {
   // deletes all existing campgrounds in the collection.
-  await Campground.deleteMany({});
+  // await Campground.deleteMany({});
   // A loop runs 50 times to create 50 sample campgrounds.
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 10; i++) {
     const randLoc = Math.floor(Math.random() * cities.length);
     await Campground.create({
       title: `${getSample(descriptors)} ${getSample(places)}`,
@@ -52,18 +79,9 @@ const seedDB = async () => {
         type: "Point",
         coordinates: [cities[randLoc].longitude, cities[randLoc].latitude],
       },
-      images: [
-        {
-          url: 'https://res.cloudinary.com/dujhq8egd/image/upload/v1717057310/PasanCamps/dtjqweg7tls0wyjd48ba.jpg',
-          filename: 'PasanCamps/dtjqweg7tls0wyjd48ba',
-        },
-        {
-          url: 'https://res.cloudinary.com/dujhq8egd/image/upload/v1717057310/PasanCamps/rpz9mrenzwyzif0tfniw.jpg',
-          filename: 'PasanCamps/rpz9mrenzwyzif0tfniw',
-        }
-      ],
+      images: [sampleImgs[Math.floor(Math.random() * sampleImgs.length)]],
       // The author field is set to the ID of the user with the username "bob".
-      author: "661c93abfa05c435380bd8bd",
+      author: "665d5b5916b52867a7279689",
     });
   }
 };
@@ -71,7 +89,7 @@ const seedDB = async () => {
 // The seeding function is executed, and the MongoDB connection is closed upon completion.
 seedDB()
   .then(() => {
-  mongoose.connection.close();
+    mongoose.connection.close();
   })
   .catch((err) => {
     console.error("Error during seeding:", err);

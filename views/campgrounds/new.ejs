@@ -1,4 +1,92 @@
 <% layout('layouts/boilerplate') %>
+<<<<<<< Updated upstream
+<h1 class="h1 text-center mt-3">New Campground</h1>
+<form
+  class="col-md-6 offset-md-3 needs-validation"
+  method="POST"
+  action="/campgrounds"
+  novalidate
+  enctype="multipart/form-data"
+>
+  <div class="mb-3">
+    <label for="title" class="form-label">Title</label>
+    <input
+      type="text"
+      class="form-control"
+      id="title"
+      name="campground[title]"
+      placeholder="Enter title"
+      required
+    />
+    <div class="valid-feedback">Looks good!</div>
+    <div class="invalid-feedback">Please provide a title</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="location" class="form-label">Location</label>
+    <input
+      type="text"
+      class="form-control"
+      id="location"
+      name="campground[location]"
+      placeholder="Enter City, State"
+      required
+    />
+    <div class="valid-feedback">Looks good!</div>
+    <div class="invalid-feedback">Please provide a valid location</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="price" class="form-label">Campground price</label>
+    <div class="input-group mb-3">
+      <span class="input-group-text">$</span>
+      <input
+        type="number"
+        class="form-control"
+        id="price"
+        name="campground[price]"
+        placeholder="0.00"
+        step="0.01"
+        required
+      />
+
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Please provide a valid price</div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label for="description" class="form-label">Description</label>
+    <textarea
+      class="form-control"
+      id="description"
+      name="campground[description]"
+      rows="3"
+      placeholder="Enter a brief description about your campground"
+      required
+    ></textarea>
+    <div class="valid-feedback">Looks good!</div>
+    <div class="invalid-feedback">Please provide a description</div>
+  </div>
+
+  <div class="mb-3">
+    <label for="image" class="form-label">Images</label>
+    <input class="form-control" type="file" id="image" name="image" multiple required>
+    <div class="valid-feedback">Looks good!</div>
+    <div class="invalid-feedback">Please Add at least one image</div>
+  </div>
+  
+
+  <div class="d-flex justify-content-center">
+    <button type="submit" class="btn btn-success">Add Campground</button>
+  </div>
+</form>
+<div class="my-3 d-flex justify-content-center">
+  <a class="text-muted text-decoration-none" href="/campgrounds"
+    >Back to Campgrounds</a
+  >
+</div>
+=======
 <div class="container my-4 campground-form">
   <h1 class="h1 text-center mt-3">New Campground</h1>
   <form
@@ -7,6 +95,7 @@
     action="/campgrounds"
     novalidate
     enctype="multipart/form-data"
+    id="campgroundForm"
   >
     <div class="mb-3">
       <label for="title" class="form-label fw-bold">Title</label>
@@ -72,8 +161,8 @@
     <div class="mb-3">
       <label for="image" class="form-label fw-bold">Images</label>
       <input class="form-control" type="file" id="image" name="image" multiple required>
-      <div class="valid-feedback">Looks good!</div>
       <div class="invalid-feedback">Please Add at least one image</div>
+      <div class="valid-feedback">Looks good!</div>
     </div>
     
 
@@ -87,3 +176,23 @@
     >
   </div>
 </div>
+
+
+<script>
+  document.getElementById('campgroundForm').addEventListener('submit', function(event) {
+    const imageInput = document.getElementById('image');
+    if (imageInput.files.length === 0) {
+      event.preventDefault();
+      imageInput.classList.add('is-invalid');
+      imageInput.nextElementSibling.textContent = 'Please Add at least one image';
+    } else if (imageInput.files.length > 5 || imageInput.files.length === 0) {
+      event.preventDefault();
+      imageInput.classList.add('is-invalid');
+      imageInput.nextElementSibling.textContent = 'You can upload a maximum of five images.';
+    } else {
+      imageInput.classList.remove('is-invalid');
+      imageInput.classList.add('is-valid');
+    }
+  });
+</script>
+>>>>>>> Stashed changes
