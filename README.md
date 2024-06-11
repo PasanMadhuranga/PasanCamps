@@ -99,6 +99,6 @@ Contributions are welcome! Please follow these steps to contribute:
 
 ## Contact
 
-Pasan Madhuranga: [My Email](pasan3529@gmail.com.com)
+Pasan Madhuranga: [My Email](mailto:pasan3529@gmail.com)
 
 Project Link: [PasanCamps](https://github.com/PasanMadhuranga/PasanCamps)
